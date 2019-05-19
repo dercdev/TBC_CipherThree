@@ -91,20 +91,11 @@ namespace TBCCipherThreeToyCipher
                 {
                     Pair encryptedPair = new Pair() { LeftMember = encryption.EncryptBlock(curPair.LeftMember), RightMember = encryption.EncryptBlock(curPair.RightMember) };
 
-                    encryptedPair.LeftMember = PartialDecrypt(attack, encryptedPair.LeftMember);
-                    encryptedPair.RightMember = PartialDecrypt(attack, encryptedPair.RightMember);
-
                     //reverse round with the guessed key
-                    //int leftMemberSingleDecrypted = DecryptSingleRound(encryptedPair.LeftMember, curTry.Key, configuration.IsBeforeLast, configuration.IsLast);
-                    //int rightMemberSingleDecrypted = DecryptSingleRound(encryptedPair.RightMember, curTry.Key, configuration.IsBeforeLast, configuration.IsLast);
                     int leftMemberSingleDecrypted = ReverseSBoxBlock(encryptedPair.LeftMember ^ curTry.Key);
                     int rightMemberSingleDecrypted = ReverseSBoxBlock(encryptedPair.RightMember ^ curTry.Key);
 
-
                     int differentialToCompare = (leftMemberSingleDecrypted ^ rightMemberSingleDecrypted);
-
-                    //differentialToCompare = ReverseSBoxBlock(differentialToCompare);
-                    //differentialToCompare = GetSubBlockFromBlock(differentialToCompare, 0);
 
                     if (differentialToCompare == configuration.ExpectedDifference)
                     {
